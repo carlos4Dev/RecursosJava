@@ -1,5 +1,5 @@
 
-public class Arrays_IV_Bidemensionales {
+public class Arrays4Bidemensionales {
 
 	public static void main(String[] args) {
 		
@@ -20,9 +20,9 @@ public class Arrays_IV_Bidemensionales {
 				{7,11}
 		};
 		
-		for (int i=0; i<3; i++) {
+		for (int i = 0; i < 3; i++) {
 			System.out.println();
-			for (int j=0; j<2; j++) {
+			for (int j = 0; j < 2; j++) {
 				System.out.print(matrix[i][j] + " ");
 			}
 		}
