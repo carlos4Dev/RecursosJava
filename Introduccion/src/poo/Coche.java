@@ -21,10 +21,12 @@ public class Coche {
 	
 	public String dimeDatosGenerales() { // Getter
 		
-		return "La plataforma del vehículo tiene " + ruedas + " ruedas " +
-		". Mide " + largo / 1000 + " metros con un ancho de " + ancho + 
-		" cm y un peso de plataforma de " + pesoPlataforma + " kgs. Tiene un motor de " +
-		motor + " cc.";
+		return "La plataforma del vehículo tiene " + ruedas 
+				+ " ruedas " + ". Mide " + largo / 1000 
+				+ " metros con un ancho de " + ancho 
+				+ " cm." + " \nTiene un peso de plataforma de " 
+				+ pesoPlataforma 
+				+ " kgs y un motor de " + motor + " cc.";
 	}
 	
 	public String dimeColor() { // Getter
@@ -46,7 +48,8 @@ public class Coche {
 	}
 	
 	public String dimeAsientos() { // Getter
-		if (asientosCuero) { // asientosCuero == true (no es necesario == true)
+		if (asientosCuero) { 
+			// asientosCuero == true (no es necesario == true)
 			return "El coche tiene asientos de cuero";
 		} else {
 			return "El coche tiene asientos de serie";
@@ -73,7 +76,9 @@ public class Coche {
 	// Se puede crear un método que sea getter y setter a la vez
 	// No es recomendable hacerlo
 	
-	public String dimePesoCoche() { // Setter + getter (No recomendable)
+	public String dimePesoCoche() { 
+		
+		// Setter + getter (No recomendable)
 		
 		int pesoCarroceria = 500;
 		

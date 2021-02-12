@@ -31,11 +31,12 @@ public class UsoEmpleado {
 				+ empleado3.dameFechaContrato());*/
 		
 		// Forma alternativa instanciar objetos Empleado (en un array)
-		Empleado[] misEmpleados = new Empleado[3];
+		Empleado[] misEmpleados = new Empleado[4];
 		
 		misEmpleados[0] = new Empleado("Juan Palomo", 1200, 2015, 7, 5);
 		misEmpleados[1] = new Empleado("Pepe Pinto", 1600, 2016, 12, 15);
 		misEmpleados[2] = new Empleado("Ana Nita", 1300, 2014, 11, 18);
+		misEmpleados[3] = new Empleado("Luis Listillo");
 		
 		/*for (int i = 0; i < 3; i++) {
 			
@@ -78,6 +79,12 @@ class Empleado {
 		altaContrato = calendario.getTime();
 	}
 	
+	public Empleado(String nom) {
+		
+		this(nom, 30000, 2000, 01, 01);
+		
+	}
+	
 	public String dameNombre() { // getter
 		
 		return nombre;
@@ -106,4 +113,28 @@ class Empleado {
 	private String nombre;
 	private double sueldo;
 	private Date altaContrato;
+	//private static int idSiguiente;
+	//private int id;
+}
+
+class Jefatura extends Empleado{
+	
+	public Jefatura(String nom, double sue, int anio, int mes, 
+			int dia) {
+		
+		super(nom, sue, anio, mes, dia);
+	}
+	
+	private double incentivo;
+	
+	public void estableceIncentivo(double b) {
+		incentivo = b;
+	}
+	
+	public double dameSueldo() {
+		
+		double sueldoJefe = super.dameSueldo();
+		
+		return sueldoJefe + incentivo;
+	}
 }
