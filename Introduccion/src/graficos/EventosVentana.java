@@ -32,17 +32,22 @@ class MarcoVentana extends JFrame {
         setVisible(true);
         
         // Instanciamos clase Oyente M_Ventana
+        /* Se puede simplificar después de implementar WindowAdapter
         M_Ventana oyenteVentana = new M_Ventana();
         
         addWindowListener(oyenteVentana);
+        */
+        addWindowListener(new M_Ventana());
         
     }
     
 }
 
 // Clase Oyente implemente interfaz WindowListener
-class M_Ventana implements WindowListener {
-
+//class M_Ventana implements WindowListener {
+class M_Ventana extends WindowAdapter {
+    
+    /* Al utilizar WindowAdapter se puede utilizar únicamente los métodos que se necesiten
     @Override
     public void windowOpened(WindowEvent e) {
         
@@ -63,14 +68,15 @@ class M_Ventana implements WindowListener {
         System.out.println("La ventana ha sido cerrada");
         
     }
-
+    */
     @Override
     public void windowIconified(WindowEvent e) {
         
         System.out.println("Ventana minimizada");
         
     }
-
+    
+    /*
     @Override
     public void windowDeiconified(WindowEvent e) {
         
@@ -91,5 +97,5 @@ class M_Ventana implements WindowListener {
         System.out.println("Ventana desactivada");
         
     }
-            
+    */     
 }
