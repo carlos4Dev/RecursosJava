@@ -3,6 +3,7 @@ package graficos;
 // Añado menús emergentes
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -20,8 +22,10 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTextPane;
+import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.text.StyledEditorKit;
+import javax.swing.text.StyledEditorKit.BoldAction;
 
 public class Procesador_V {
 	
@@ -41,7 +45,7 @@ class MenuProcesador_V extends JFrame {
 	
 	public MenuProcesador_V() {
 		
-		setBounds(300,200,600,400);
+		setBounds(300,200,600,420);
 		LaminaProcesador_V miLamina = new LaminaProcesador_V();
 		add(miLamina);
 		setVisible(true);
@@ -55,6 +59,10 @@ class LaminaProcesador_V extends JPanel {
 	private JTextPane miArea;
 	private JMenu fuente, estilo, tamanio;
 	private Font letras;
+	private JButton negritaBarra, cursivaBarra, subraBarra, azulBarra, amarilloBarra, rojoBarra;
+	private JButton a_izquierda, a_centrado,  a_derecha, a_justificado;
+	private JToolBar barra;
+	
 	
 	public LaminaProcesador_V() {
 		
@@ -75,8 +83,8 @@ class LaminaProcesador_V extends JPanel {
 		configura_menu("Verdana","fuente","Verdana",9,10,"");
 		
 		// Menu Estilo --------------------------------------------
-		configura_menu("Negrita","estilo","",Font.BOLD,1,"src/graficos/bola_azul.gif");
-		configura_menu("Cursiva","estilo","",Font.ITALIC,1,"src/graficos/bola_roja.gif");
+		configura_menu("Negrita","estilo","",Font.BOLD,1,"src/graficos/negrita.gif");
+		configura_menu("Cursiva","estilo","",Font.ITALIC,1,"src/graficos/cursiva.gif");
 		
 		/* Para evitar conflicto con el menú emergente lo comento y quito el comentario de las dos líneas anteriores
 		JCheckBoxMenuItem negrita = new JCheckBoxMenuItem("Negrita", new ImageIcon("src/graficos/bola_azul.gif"));
@@ -137,7 +145,7 @@ class LaminaProcesador_V extends JPanel {
 		miArea = new JTextPane();
 		add(miArea, BorderLayout.CENTER);
 		
-		// Añado menú Emergente
+		// Añado menú Emergente -----------------------------------------
 		
 		JPopupMenu emergente = new JPopupMenu();
 		
@@ -152,6 +160,89 @@ class LaminaProcesador_V extends JPanel {
 		
 		miArea.setComponentPopupMenu(emergente);
 		
+		/* De esta forma se genera bastante código, se puede optimizar con un método configura_barra()
+		// Barra de herramientas ------------------------------------------------------------------------
+		JToolBar barra = new JToolBar();
+		// Estilo ---------------------------
+		JButton negritaBarra = new JButton(new ImageIcon("src/graficos/negrita.gif"));
+		JButton cursivaBarra = new JButton(new ImageIcon("src/graficos/cursiva.gif"));
+		JButton subraBarra = new JButton(new ImageIcon("src/graficos/subrayado.gif"));
+		// Color de fuente ----------------
+		JButton azulBarra = new JButton(new ImageIcon("src/graficos/bola_azul.gif"));
+		JButton amarilloBarra = new JButton(new ImageIcon("src/graficos/bola_amarilla.gif"));
+		JButton rojoBarra = new JButton(new ImageIcon("src/graficos/bola_roja.gif"));
+		// Alineación ----------------------
+		JButton a_izquierda = new JButton(new ImageIcon("src/graficos/a_izquierda.gif"));
+		JButton a_centrada = new JButton(new ImageIcon("src/graficos/centrado.gif"));
+		JButton a_derecha = new JButton(new ImageIcon("src/graficos/a_derecha.gif"));
+		JButton a_justificado = new JButton(new ImageIcon("src/graficos/justificado.gif"));
+		
+		negritaBarra.addActionListener(new StyledEditorKit.BoldAction());
+		cursivaBarra.addActionListener(new StyledEditorKit.ItalicAction());
+		subraBarra.addActionListener(new StyledEditorKit.UnderlineAction());
+		
+		azulBarra.addActionListener(new StyledEditorKit.ForegroundAction("Fuente_Azul", Color.BLUE));
+		amarilloBarra.addActionListener(new StyledEditorKit.ForegroundAction("Fuente_Amarillo", Color.YELLOW));		
+		rojoBarra.addActionListener(new StyledEditorKit.ForegroundAction("Fuente_Rojo", Color.RED));
+		
+		a_izquierda.addActionListener(new StyledEditorKit.AlignmentAction("Izquierda", 0));
+		a_centrada.addActionListener(new StyledEditorKit.AlignmentAction("Centrado", 1));
+		a_derecha.addActionListener(new StyledEditorKit.AlignmentAction("Derecha", 2));
+		a_justificado.addActionListener(new StyledEditorKit.AlignmentAction("Justicado", 3));
+		
+		
+		barra.add(negritaBarra);
+		barra.add(cursivaBarra);
+		barra.add(subraBarra);
+		
+		barra.add(azulBarra);
+		barra.add(amarilloBarra);
+		barra.add(rojoBarra);
+		
+		barra.add(a_izquierda);
+		barra.add(a_centrada);
+		barra.add(a_derecha);
+		barra.add(a_justificado);
+		
+		*/
+		barra = new JToolBar();
+		configura_barra("src/graficos/negrita.gif").addActionListener(new StyledEditorKit.BoldAction());
+		configura_barra("src/graficos/cursiva.gif").addActionListener(new StyledEditorKit.ItalicAction());
+		configura_barra("src/graficos/subrayado.gif").addActionListener(new StyledEditorKit.UnderlineAction());
+		
+		barra.addSeparator();
+		
+		configura_barra("src/graficos/bola_azul.gif")
+		    .addActionListener(new StyledEditorKit.ForegroundAction("Fuente_Azul", Color.BLUE));
+		configura_barra("src/graficos/bola_amarilla.gif")
+		    .addActionListener(new StyledEditorKit.ForegroundAction("Fuente_Azul", Color.YELLOW));
+		configura_barra("src/graficos/bola_roja.gif")
+		    .addActionListener(new StyledEditorKit.ForegroundAction("Fuente_Azul", Color.RED));
+		
+		
+		barra.addSeparator();
+        
+        configura_barra("src/graficos/a_izquierda.gif")
+            .addActionListener(new StyledEditorKit.AlignmentAction("Izquierda", 0));
+        configura_barra("src/graficos/centrado.gif")
+            .addActionListener(new StyledEditorKit.AlignmentAction("Centrado", 1));
+        configura_barra("src/graficos/a_derecha.gif")
+            .addActionListener(new StyledEditorKit.AlignmentAction("Derecha", 2));
+        configura_barra("src/graficos/justificado.gif")
+        .addActionListener(new StyledEditorKit.AlignmentAction("Justificado", 3));
+        
+        barra.setOrientation(1);
+		add(barra, BorderLayout.WEST);
+	}
+	
+	public JButton configura_barra(String ruta) {
+	    
+	    JButton boton = new JButton(new ImageIcon(ruta));
+	    
+	    barra.add(boton);
+	    
+	    return boton;
+	    
 	}
 	
 	public void configura_menu(String rotulo, String menu, String tipo_letra, int estilos, int tam, String ruta_icono) {
