@@ -27,7 +27,7 @@ class MarcoLibre extends JFrame {
 	
 	public MarcoLibre() {
 		
-		setBounds(300,300,600,400);
+		setBounds(300,300,900,400);
 		LaminaLibre miLamina = new LaminaLibre();
 		add(miLamina);
 		setVisible(true);
@@ -50,10 +50,12 @@ class LaminaLibre extends JPanel {
 		JLabel nombre = new JLabel("Nombre: ");
 		JLabel apellido = new JLabel("Apellido: ");
 		JLabel edad = new JLabel("Edad: ");
+		JLabel telefono = new JLabel("Telefono: ");
 		
 		JTextField c_nombre = new JTextField();
 		JTextField c_apellido = new JTextField();
 		JTextField c_edad = new JTextField();
+		JTextField c_telefono = new JTextField();
 		
 		/*
 		nombre.setBounds(20, 20, 80, 10);
@@ -71,6 +73,9 @@ class LaminaLibre extends JPanel {
 		add(edad);
 		add(c_edad);
 		
+		add(telefono);
+		add(c_telefono);
+		
 		
 		
 	}
@@ -78,7 +83,9 @@ class LaminaLibre extends JPanel {
 
 class EnColumnas implements LayoutManager {
 
-	private int x = 20;
+	// private int x = 20; 
+	// Si queremos que se cree en el centro, se crea, pero no se inciailiza
+	private int x;
 	private int y = 20;
 	
 	@Override
@@ -109,6 +116,12 @@ class EnColumnas implements LayoutManager {
 	public void layoutContainer(Container miContenedor) {
 		// TODO Auto-generated method stub
 		
+		// Para que se vaya creando en el centro
+		int d = miContenedor.getWidth();
+		
+		x = d/2; // Para sabaer la mitad del ancho
+		
+		// A partir de aquí, el código es casi el mismo
 		int contador = 0;
 		int n = miContenedor.getComponentCount();
 		
@@ -118,13 +131,19 @@ class EnColumnas implements LayoutManager {
 			
 			Component c = miContenedor.getComponent(i);
 			
+			/*
 			c.setBounds(x, y, 100, 20);
+			
+			 Para crear en el medio se le resta el ancho del componente
+			*/
+			c.setBounds(x-100, y, 100, 20);
 			
 			x += 100;
 			
 			if (contador %2 == 0) {
 				
-				x = 20;
+				// x = 20;
+				x = d/2;
 				y += 40;
 			}
 		}
