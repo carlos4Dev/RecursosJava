@@ -8,6 +8,10 @@ public class AccesoFicheros {
 		// TODO Auto-generated method stub
 		
 		File ruta = new File("C:/Users/carlo/Documents/Copia de Eclipse Workspace/RecursosJava/Introduccion");
+		// Para asegurar que no hay problemas con las rutas en otros sistema operativos
+		// Se puede usar en vez de / podemos poner File.separator
+		
+		// File ruta = new File("C:" + File.separator + "Users" + File.separator + "carlo" + File.separator + "Documents" + File.separator + "Copia de Eclipse Workspace" + File.separator + "RecursosJava" + File.separator + "Introduccion");
 		
 		System.out.println(ruta.getAbsolutePath());
 		
