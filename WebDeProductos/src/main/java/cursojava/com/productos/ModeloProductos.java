@@ -64,7 +64,7 @@ public class ModeloProductos {
         
     }
 
-    public void agregarElNuevoProducto(Productos nuevoProducto) {
+    public void agregarElNuevoProducto(Productos nuevoProducto) throws Exception {
         // TODO Auto-generated method stub
         
         Connection miConexion = null;
@@ -111,6 +111,11 @@ public class ModeloProductos {
             
             e.printStackTrace();
             
+        } finally {
+            
+            miStatement.close();
+            miConexion.close();
+            
         }
         
         
@@ -151,6 +156,7 @@ public class ModeloProductos {
          
          if (miResultSet.next()) {
              
+             String cArt = miResultSet.getString("CÓDIGOARTÍCULO");
              String seccion = miResultSet.getString("SECCIÓN");
              String nArt = miResultSet.getString("NOMBREARTÍCULO");
              double precio = miResultSet.getDouble("PRECIO");
@@ -158,7 +164,7 @@ public class ModeloProductos {
              String importado = miResultSet.getString("IMPORTADO");
              String pOrig = miResultSet.getString("PAÍSDEoRIGEN");
              
-             elProducto = new Productos(seccion, nArt, precio, fecha, importado, pOrig);
+             elProducto = new Productos(cArt, seccion, nArt, precio, fecha, importado, pOrig);
              
          } else {
              
@@ -170,7 +176,95 @@ public class ModeloProductos {
            e.printStackTrace();
            
        }
+       
         return elProducto;
+    }
+
+    public void actualizarProducto(Productos productoActualizado) throws Exception {
+        // TODO Auto-generated method stub
+        
+        Connection miConexion = null;
+        PreparedStatement miStatement = null;
+        
+        // Establecer la conexión
+        try {
+        miConexion = origenDatos.getConnection();
+        
+        // Crear sentencia  SQL
+        
+        String sql = "UPDATE PRODUCTOS SECCIÓN = ?, NOMBREARTÍCULO = ?, PRECIO = ?, " + 
+                "FECHA = ?, IMPORTADO = ?, PAÍSDEORIGEN = ? WHERE CÓDIGOARTÍCULO = ?";
+        
+        // Crear la consulta preparada
+        
+        miStatement = miConexion.prepareStatement(sql);
+        
+        // Establecer los parámetros
+        
+        miStatement.setString(1, productoActualizado.getSeccion());
+        miStatement.setString(2, productoActualizado.getnArt());
+        miStatement.setDouble(3, productoActualizado.getPrecio());
+        java.util.Date utilDate = productoActualizado.getFecha();
+        java.sql.Date fechaConvertida = new java.sql.Date(utilDate.getTime());
+        miStatement.setDate(4, fechaConvertida);
+        miStatement.setString(5, productoActualizado.getImportado());
+        miStatement.setString(6, productoActualizado.getpOrig());
+        miStatement.setString(7, productoActualizado.getcArt());
+        
+        // Ejecutar la instrucción SQL
+        
+        miStatement.execute();
+        } catch (Exception e) {
+            
+            e.printStackTrace();
+            
+        } finally {
+            
+            miStatement.close();
+            
+            miConexion.close();
+            
+        }
+        
+    }
+
+    public void eliminarProducto(String codArticulo) throws Exception {
+        // TODO Auto-generated method stub
+        
+        Connection miConexion = null;
+        PreparedStatement miStatement = null;
+        
+        // Establecer la conexión
+        try { 
+        miConexion = origenDatos.getConnection();
+        
+        // Crear la instrucción SQL de eliminación
+        
+        String sql = "DELETE FROM PRODUCTOS WHERE CÓDIGOARTÍCULO = ? ";
+        
+        // Preparar la consulta
+        
+        miStatement = miConexion.prepareStatement(sql);
+        
+        // Establecer los parámetros de consulta
+        
+        miStatement.setString(1, codArticulo);
+        
+        // Ejecutar la sentencia SQL
+        
+        miStatement.execute();
+        } catch (Exception e) {
+            
+            e.printStackTrace();
+            
+        } finally {
+            
+            miStatement.close();
+            
+            miConexion.close();
+            
+        }
+        
     }
     
     

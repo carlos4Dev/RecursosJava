@@ -71,6 +71,15 @@
 		
 	</c:url>
 	
+	<!-- Link para eliminar cada producto con su campo clave -->
+	
+	<c:url var="linkTempEliminar" value="ControladorProductos" >
+	
+		<c:param name"instruccion" value="eliminar"></c:param>
+		<c:param name"cArticulo" value="${tempProd.cArt }"></c:param>
+		
+	</c:url>
+	
 	<tr>
 	
 	<td class="filas">${tempProd.cArt }</td>
@@ -80,7 +89,7 @@
 	<td class="filas">${tempProd.precio}</td>
 	<td class="filas">${tempProd.importado }</td>
 	<td class="filas">${tempProd.pOrig }</td>
-	<td class="filas"><a href="${linkTemp }">Actualizar</a></td>
+	<td class="filas"><a href="${linkTemp }">Actualizar</a>&nbsp;&nbsp;<a href="${linkTempEliminar }">Eliminar</a></td>
 	
 	</tr>
 	

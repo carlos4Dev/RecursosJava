@@ -96,6 +96,28 @@ public class ControladorProductos extends HttpServlet {
 	        
 	        break;
 	        
+	    case "actualizarBBDD":
+	        
+	        try {
+                actualizaProductos(request, response);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+	        
+	        break;
+	        
+	    case "eliminar":
+	        
+	        try {
+	         
+	            eliminarProducto(request, response);
+	            
+	        } catch(Exception e) {
+	            
+	            e.printStackTrace();
+	        }
+	        
         default: // En este caso no haría falta el default, porque entraría o en listar o en insertar
             
             obtenerProductos(request, response);  // si no entra en ninguno, listaría los productos
@@ -108,7 +130,59 @@ public class ControladorProductos extends HttpServlet {
 	    	    
 	}
 
-	// Por si acaso hay algún problema, utilizamos throws para obligar a capturar la excepcion
+	private void eliminarProducto(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // TODO Auto-generated method stub
+        
+	    // Capturar el campo clave, código articulo
+	    
+	    String codArticulo = request.getParameter("cArticulo");
+	    
+	    // Borrar producto de la BBDD
+	    
+	    modeloProductos.eliminarProducto(codArticulo);
+	    
+	    // Volver al listado de productos
+	    
+	    obtenerProductos(request, response);
+    }
+
+    private void actualizaProductos(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // TODO Auto-generated method stub
+        
+	    // Leer los datos que le vienen del formulario actualizar
+	    
+	    String codArticulo = request.getParameter("cArt");
+        String seccion = request.getParameter("seccion");
+        String nombreArticulo = request.getParameter("nArt");
+        // Convertimos de String a double con parseDouble
+        double precio =Double.parseDouble(request.getParameter("precio"));
+        // Convertir de formato fecha a String es un poco más complidado
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+        Date fecha = null;
+        try {
+            fecha = formatoFecha.parse(request.getParameter("fecha"));
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        String importado = request.getParameter("importado");
+        String paisOrigen = request.getParameter("pOrig");
+	    
+	    // Crear un objeto de tipo Producto con la info del formulario
+	    
+        Productos productoActualizado = new Productos(codArticulo, seccion, nombreArticulo, precio, fecha, importado, paisOrigen);
+	    
+	    // Actualizar la BBDD con la info del obj Producto
+	    
+        modeloProductos.actualizarProducto(productoActualizado);
+	    
+	    // Volver al listado con la info actualizada
+        
+        obtenerProductos(request, response);
+	    
+    }
+
+    // Por si acaso hay algún problema, utilizamos throws para obligar a capturar la excepcion
     private void cargaProductos(HttpServletRequest request, HttpServletResponse response) throws Exception {
         // TODO Auto-generated method stub
         
@@ -122,11 +196,11 @@ public class ControladorProductos extends HttpServlet {
         
         // Colocar atributo correspondiente al cArticulo
         
-        request.setAttribute("CODIGO_ARTICULO", elProducto);
+        request.setAttribute("ProductoActualizar", elProducto);
         
         // Enviar Producto al formulario de actualizar (jsp)
         
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/actualizarProducto.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/ActualizarProducto.jsp");
         dispatcher.forward(request, response);
         
     }
@@ -161,7 +235,12 @@ public class ControladorProductos extends HttpServlet {
         
         // Enviar el objeto al modelo y después insertar el objeto producto en la base de datos
         
-        modeloProductos.agregarElNuevoProducto(nuevoProducto);
+        try {
+            modeloProductos.agregarElNuevoProducto(nuevoProducto);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         
         // Volver al listado de Productos
         
